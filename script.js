@@ -20,19 +20,6 @@ setupControlButtons();
 
 /* ### Functions ### */
 
-function tick(){
-	console.time("loop");
-	drawGrid();
-	updateGrid();
-	// measure time it takes for one game tick to complete
-	console.timeEnd("loop");
-	// restrict update rate to set frames per second
-	setTimeout(function() {
-		requestAnimationFrame(tick);
-	}, 1000 / fps);
-}
-
-
 /* Exercise 1 */
 // create an array that contains another array for multi 2d array in js
 // return an array with n elements and place an empty array in each of them in the for loop
