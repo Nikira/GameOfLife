@@ -158,9 +158,11 @@ function startButtonHandler(){
 	console.timeEnd("loop");
 	// restrict update rate to set frames per second
 	setTimeout(function() {
-		requestAnimationFrame(tick);
+		requestAnimationFrame(startButtonHandler);
 	}, 1000 / fps);	
 }
+
+
 
 function clearButtonHandler(){
 	clearGrid();
