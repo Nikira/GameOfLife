@@ -120,9 +120,8 @@ function updateGrid(){
 	mirrorGrid = tempGrid;
 }
 
-function clearGrid(){
-	location.reload();
-}
+/* Exercise 6 */
+// setup control buttons 
 
 function setupControlButtons() {
     // button to start
@@ -147,6 +146,10 @@ function randomButtonHandler(){
 
 /* Exercise 3 */
 // update the grid to see living cells on initialization
+function clearGrid(){
+	location.reload();
+}
+
 function startButtonHandler(){
 	console.time("loop");
 	drawGrid();
