@@ -14,18 +14,12 @@ var ctx = canvas.getContext("2d");
 ctx.scale(5, 5);
 ctx.fillStyle = "blue";
 var fps = 30;
-// add event listener for living cell
-
-
-
-// call grid creation functions and game loop
-randomCells();
-tick();
+// initialize control buttons
+setupControlButtons();
 
 
 /* ### Functions ### */
-/* Exercise 3 */
-// update the grid to see living cells on initialization
+
 function tick(){
 	console.time("loop");
 	drawGrid();
@@ -36,7 +30,6 @@ function tick(){
 	setTimeout(function() {
 		requestAnimationFrame(tick);
 	}, 1000 / fps);
-	
 }
 
 
@@ -139,6 +132,50 @@ function updateGrid(){
 	gameGrid = mirrorGrid;
 	mirrorGrid = tempGrid;
 }
+
+function clearGrid(){
+	location.reload();
+}
+
+function setupControlButtons() {
+    // button to start
+    var startButton = document.getElementById("start");
+    startButton.onclick = startButtonHandler;
+    
+    // button to clear
+    var clearButton = document.getElementById("clear");
+    clearButton.onclick = clearButtonHandler;
+    
+    // button to set random initial state
+    var randomButton = document.getElementById("random");
+    randomButton.onclick = randomButtonHandler;
+}
+
+function randomButtonHandler(){
+	// call grid creation functions and game loop
+	randomCells();
+	drawGrid();
+}
+
+
+/* Exercise 3 */
+// update the grid to see living cells on initialization
+function startButtonHandler(){
+	console.time("loop");
+	drawGrid();
+	updateGrid();
+	// measure time it takes for one game tick to complete
+	console.timeEnd("loop");
+	// restrict update rate to set frames per second
+	setTimeout(function() {
+		requestAnimationFrame(tick);
+	}, 1000 / fps);	
+}
+
+function clearButtonHandler(){
+	clearGrid();
+}
+
 
 /* Exercise 5 
 // get mouse click position and create a living cell
