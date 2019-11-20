@@ -13,7 +13,7 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 ctx.scale(5, 5);
 ctx.fillStyle = "blue";
-var fps = 30;
+var fps = 2;
 // initialize control buttons
 setupControlButtons();
 
@@ -135,6 +135,14 @@ function setupControlButtons() {
     // button to set random initial state
     var randomButton = document.getElementById("random");
     randomButton.onclick = randomButtonHandler;
+	
+	// button to speed up time
+	var fpsUp = document.getElementById("fps_up");
+	fpsUp.onclick = fpsUpButtonHandler;
+	
+	// button to slpw down time
+	var fpsDown = document.getElementById("fps_down");
+	fpsDown.onclick = fpsDownButtonHandler;
 }
 
 function randomButtonHandler(){
@@ -143,6 +151,21 @@ function randomButtonHandler(){
 	drawGrid();
 }
 
+function fpsUpButtonHandler(){
+	if (fps <= 60){
+		fps += 10;
+	}
+	else
+		fps = 60;
+}
+
+function fpsDownButtonHandler(){
+	if (fps >= 10){
+		fps -= 10;
+	}
+	else
+		fps = 1;
+}
 
 /* Exercise 3 */
 // update the grid to see living cells on initialization
@@ -166,6 +189,14 @@ function startButtonHandler(){
 
 function clearButtonHandler(){
 	clearGrid();
+}
+
+function timeStepUp(){
+	
+}
+
+function timeStepDown(){
+	
 }
 
 
