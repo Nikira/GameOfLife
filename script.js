@@ -6,9 +6,9 @@ const gridWidth = 100;
 const gridHeight = 100;
 const gridScale = 5;
 // create the grid
-var gameGrid = createGrid(gridWidth);
+var gameGrid = createGrid(gridHeight, gridWidth);
 // create a mirror grid for game loop
-var mirrorGrid = createGrid(gridWidth);
+var mirrorGrid = createGrid(gridHeight, gridWidth);
 // create javascript canvas to draw game on
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
@@ -24,10 +24,13 @@ setupControlButtons();
 /* Exercise 1 */
 // create an array that contains another array for multi 2d array in js
 // return an array with n elements and place an empty array in each of them in the for loop
-function createGrid(rows) {
+function createGrid(rows, cols) {
 	var array = [];
 	for (var i = 0; i < rows; i++){
 		array[i] = [];
+		for (let j = 0; j < cols; j++){
+			array[i][j] = 0;
+		}
 	}
 	return array;
 }
@@ -55,21 +58,15 @@ function randomCells(){
 /* Exercise 3 */
 // draw the grid and its content on screen
 function drawGrid(){
-	// count living cells 
-	var liveCount = 0;	
-	// empty canvas before redraw
-	ctx.clearRect(0,0,gridHeight,gridWidth)
 	// canvas.addEventListener("mousedown", getPosition, false);
-	for (var j = 1; j < gridHeight; j++){
-		for (var k = 1; k < gridWidth; k++){
+	for (let i = 0; i < gridHeight; i++){
+		for (let j = 0; j < gridWidth; j++){
 			// check cell value and draw on grid if it's a living cell
-			if (gameGrid[j][k] === 1) {
-				ctx.fillRect(j, k, 1, 1);
-				liveCount++;
+			if (gameGrid[i][j] === 1) {
+				ctx.fillRect(i, j, 1, 1);
 			}
 		}
 	}
-	// console.log(liveCount/100);
 }
 
 /* Exercise 4 */
@@ -177,8 +174,10 @@ function clearGrid(){
 
 function startButtonHandler(){
 	console.time("loop");
-	drawGrid();
 	updateGrid();
+	// empty canvas before redraw
+	ctx.clearRect(0,0,gridHeight,gridWidth)
+	drawGrid();
 	// measure time it takes for one game tick to complete
 	console.timeEnd("loop");
 	// restrict update rate to set frames per second
