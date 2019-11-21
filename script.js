@@ -48,6 +48,7 @@ function randomCells(){
 			}
 		}
 	}
+	// console.log(gameGrid.join('\n'));
 }
 
 /* Exercise 3 */
@@ -67,7 +68,7 @@ function drawGrid(){
 			}
 		}
 	}
-	console.log(liveCount/100);
+	// console.log(liveCount/100);
 }
 
 /* Exercise 4 */
