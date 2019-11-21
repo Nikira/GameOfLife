@@ -4,6 +4,7 @@
 // declare game grid width
 const gridWidth = 100;
 const gridHeight = 100;
+const gridScale = 5;
 // create the grid
 var gameGrid = createGrid(gridWidth);
 // create a mirror grid for game loop
@@ -11,7 +12,7 @@ var mirrorGrid = createGrid(gridWidth);
 // create javascript canvas to draw game on
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-ctx.scale(5, 5);
+ctx.scale(gridScale, gridScale);
 ctx.fillStyle = "blue";
 var fps = 2;
 // initialize control buttons
@@ -208,8 +209,8 @@ function handleEvent(oEvent) {
 	let x = oEvent.clientX - rect.left;
 	let y = oEvent.clientY - rect.top;
 	console.log(`mouse click offsetX: ${x} offsetY: ${y} `);
-	let cellX = Math.floor(x / 5);
-	let cellY = Math.floor(y / 5);
+	let cellX = Math.floor(x / gridScale);
+	let cellY = Math.floor(y / gridScale);
 	console.log(`mouse click cellX: ${cellX} cellY: ${cellY} `);
 	if( cellX >= 0 && cellY >= 0 && cellX < gridWidth && cellY < gridHeight)
 	{
