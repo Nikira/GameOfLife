@@ -2,8 +2,8 @@
 /* ### Initialization ### */
 
 // declare game grid width
-gridWidth = 100;
-gridHeight = 100;
+const gridWidth = 100;
+const gridHeight = 100;
 // create the grid
 var gameGrid = createGrid(gridWidth);
 // create a mirror grid for game loop
