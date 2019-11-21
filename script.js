@@ -200,6 +200,22 @@ function timeStepDown(){
 	
 }
 
+function handleEvent(oEvent) {
+    var canvas = document.getElementById("myCanvas");
+	console.log(`mouse click on canvas screenY: ${oEvent.clientX} screenY: ${oEvent.clientY} `);
+	var rect = canvas.getBoundingClientRect();
+	console.log(`mouse click on rect top: ${rect.top} left: ${rect.left} `);
+	let x = oEvent.clientX - rect.left;
+	let y = oEvent.clientY - rect.top;
+	console.log(`mouse click offsetX: ${x} offsetY: ${y} `);
+	let cellX = Math.floor(x / 5);
+	let cellY = Math.floor(y / 5);
+	console.log(`mouse click cellX: ${cellX} cellY: ${cellY} `);
+	if( cellX >= 0 && cellY >= 0 && cellX < gridWidth && cellY < gridHeight)
+	{
+		gameGrid[cellX][cellY] = 1;		
+	}
+}
 
 /* Exercise 5 
 // get mouse click position and create a living cell
