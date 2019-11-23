@@ -242,7 +242,6 @@ function oneUpdateButtonHandler()
 /* Exercise 5 */
 // Main function with game step logic
 function play() {
-	console.time("loop");
 	if(playing)
 	{
 		updateGrid();
@@ -252,7 +251,6 @@ function play() {
 	ctx.clearRect(0,0,gridHeight,gridWidth);
 	drawGrid();
 	// measure time it takes for one game tick to complete
-	console.timeEnd("loop");
 	// restrict update rate to set frames per second
 	setTimeout(function() {
 		requestAnimationFrame(play);
@@ -273,7 +271,7 @@ function handleEvent(oEvent) {
 	let cellX = Math.floor(x / gridScale);
 	let cellY = Math.floor(y / gridScale);
 	console.log(`mouse click cellX: ${cellX} cellY: ${cellY} `);
-	if( cellX >= 0 && cellY >= 0 && cellX < gridWidth && cellY < gridHeight)
+	if( cellX >= 0 && cellY >= 0 && cellX < gridHeight && cellY < gridWidth)
 	{
 		if(gameGrid[cellX][cellY] == 0){
 			gameGrid[cellX][cellY] = 1;		
