@@ -13,7 +13,7 @@ var mirrorGrid = createGrid(gridHeight, gridWidth);
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 ctx.scale(gridScale, gridScale);
-ctx.fillStyle = "blue";
+ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
 var fps = 10;
 var timeout = 1000;
 var timer;
