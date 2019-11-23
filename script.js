@@ -14,9 +14,12 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 ctx.scale(gridScale, gridScale);
 ctx.fillStyle = "blue";
-var fps = 2;
+var fps = 10;
+var timeout = 1000;
+var timer;
 // initialize control buttons
 setupControlButtons();
+var playing = false;
 
 
 /* ### Functions ### */
@@ -142,6 +145,8 @@ function setupControlButtons() {
 	// button to slpw down time
 	var fpsDown = document.getElementById("fps_down");
 	fpsDown.onclick = fpsDownButtonHandler;
+	
+
 }
 
 function randomButtonHandler(){
@@ -173,33 +178,45 @@ function clearGrid(){
 }
 
 function startButtonHandler(){
+	if (playing) {
+        console.log("Pause the game");
+        playing = false;
+        this.innerHTML = "Continue";
+        clearTimeout(timer);
+    } else {
+        console.log("Continue the game");
+        playing = true;
+        this.innerHTML = "Pause";
+        play();
+    }
+}
+
+// Main function with game step logic
+function play() {
 	console.time("loop");
 	updateGrid();
+	
 	// empty canvas before redraw
 	ctx.clearRect(0,0,gridHeight,gridWidth)
 	drawGrid();
 	// measure time it takes for one game tick to complete
 	console.timeEnd("loop");
 	// restrict update rate to set frames per second
-	setTimeout(function() {
-		requestAnimationFrame(startButtonHandler);
-	}, 1000 / fps);	
+	if (playing){
+		timer = setTimeout(function() {
+			requestAnimationFrame(play);
+		}, timeout / fps);
+	}
 }
-
-
 
 function clearButtonHandler(){
 	clearGrid();
+	clearTimeout(timer);	
 }
 
-function timeStepUp(){
-	
-}
 
-function timeStepDown(){
-	
-}
-
+/* Exercise 5 */
+// add draw function and pause button
 function handleEvent(oEvent) {
     var canvas = document.getElementById("myCanvas");
 	console.log(`mouse click on canvas screenY: ${oEvent.clientX} screenY: ${oEvent.clientY} `);
@@ -216,17 +233,3 @@ function handleEvent(oEvent) {
 		gameGrid[cellX][cellY] = 1;		
 	}
 }
-
-/* Exercise 5 
-// get mouse click position and create a living cell
-function getPosition(event){
-	var x = event.x;
-	var y = event.y;
-	
-	var canvas = document.getElementById("myCanvas");
-	
-	x -= canvas.offsetLeft;
-    y -= canvas.offsetTop;
-	
-}
-*/
