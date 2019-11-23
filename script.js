@@ -7,8 +7,6 @@ const gridHeight = 100;
 const gridScale = 5;
 // create the grid
 var gameGrid = createGrid(gridHeight, gridWidth);
-// create a mirror grid for game loop
-var mirrorGrid = createGrid(gridHeight, gridWidth);
 // create javascript canvas to draw game on
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
@@ -72,59 +70,99 @@ function drawGrid(){
 	}
 }
 
+function countNeighboursLoop( x, y)
+{
+	var totalNeighbours = 0;
+	
+	for(let i = x - 1; i <=	x + 1; i++){
+		for(let j = y - 1; j <= y + 1; j++){
+			// check if indexes don't go out of bounds
+			if(i >= 0 && j >= 0 && i < gridHeight && j < gridWidth){
+				//don't count the cell itself
+				if(!(x == i && y == j)){	
+					totalNeighbours += gameGrid[i][j];
+				}
+			}
+		}
+	}
+	return totalNeighbours;
+}
+
+function countNeighbours( x, y )
+{
+	let totalCells = 0;
+	let maxX = gridHeight - 1;
+	let maxY = gridWidth - 1;
+	
+	// top
+	if(x > 0){
+		totalCells += (y > 0) 	? gameGrid[x - 1][y - 1] : 0; 	//top left
+		totalCells += (y < maxY)? gameGrid[x - 1][y + 1] : 0; 	//top right
+		totalCells += gameGrid[x - 1][y]; 						//top center
+	}
+	
+	// bottom
+	if(x < maxX){
+		totalCells += (y > 0)	? gameGrid[x + 1][y - 1] : 0; 	//bottom left
+		totalCells += (y < maxY)? gameGrid[x + 1][y + 1] : 0; 	//bottom right	
+		totalCells += gameGrid[x + 1][y]; 						//bottom center
+	}
+	
+	// middle
+	totalCells += (y > 0) 		? gameGrid[x][y - 1] : 0; 			//middle left
+	totalCells += (y < maxY) 	? gameGrid[x][y + 1]: 0; 			//middle right
+	
+	return totalCells;
+}
+
+function mirrorEdges(mirrorArray)
+{
+	// mirror edges so organisms can wrap around the grid
+	for (let i = 1; i < gridHeight - 1; i++) {
+		//top and bottom
+		mirrorArray[i][0] = mirrorArray[i][gridHeight - 3];
+		mirrorArray[i][gridHeight - 2] = mirrorArray[i][1];
+		//left and right
+		mirrorArray[0][i] = mirrorArray[gridHeight - 3][i];
+		mirrorArray[gridHeight - 2][i] = mirrorArray[1][i];
+	}
+}
+
 /* Exercise 4 */
 // update the game grid every tick according to 'game of life' rules
 function updateGrid(){
-	for (var j = 1; j < gridHeight - 1; j++){
-		for (var k = 1; k < gridWidth - 1; k++){
+	
+	// create a mirror grid to store changes from update.
+	var mirrorGrid = createGrid(gridHeight, gridWidth);
+
+	for (let i = 0; i < gridHeight; i++){
+		for (let j = 0; j < gridWidth; j++){
 			// save total cells
-			var totalCells = 0;
-			// add up values for surrounding cells
-			totalCells += gameGrid[j - 1][k - 1]; 	//top left
-	        totalCells += gameGrid[j - 1][k]; 		//top center
-	        totalCells += gameGrid[j - 1][k + 1]; 	//top right
-			totalCells += gameGrid[j][k - 1]; 		//middle left
-	        totalCells += gameGrid[j][k + 1]; 		//middle right
-			totalCells += gameGrid[j + 1][k - 1]; 	//bottom left
-			totalCells += gameGrid[j + 1][k]; 		//bottom center
-			totalCells += gameGrid[j + 1][k + 1]; 	//bottom right
-			
+			var totalCells = countNeighbours(i, j);
 			// save game grid in mirror grid in order to apply game rules to it
 			switch(totalCells){
 				case 1:
-					mirrorGrid[j][k] = 0; // kill cell due to underpopulation
+					mirrorGrid[i][j] = 0; // kill cell due to underpopulation
 	                break;
 				case 2:
-					mirrorGrid[j][k] = gameGrid[j][k]; // keep cell status
+					mirrorGrid[i][j] = gameGrid[i][j]; // keep cell status
 	                break;
 				case 3:
-					mirrorGrid[j][k] = 1; // if the cell has 3 neighbors, switch to alive
+					mirrorGrid[i][j] = 1; // if the cell has 3 neighbors, switch to alive
                     break;
 				default:
-					mirrorGrid[j][k] = 0; // dead cell
+					mirrorGrid[i][j] = 0; // dead cell
 			}
 		}
 	}
 	
-	// mirror edges so organisms can wrap around the grid
-	for (var l = 1; l < gridHeight - 1; l++) {
-		//top and bottom
-		mirrorGrid[l][0] = mirrorGrid[l][gridHeight - 3];
-		mirrorGrid[l][gridHeight - 2] = mirrorGrid[l][1];
-		//left and right
-		mirrorGrid[0][l] = mirrorGrid[gridHeight - 3][l];
-		mirrorGrid[gridHeight - 2][l] = mirrorGrid[1][l];
-	}
-	
-	// after applying game rules to the mirrored grid save it in the initial grid
-	var tempGrid = gameGrid;
+	mirrorEdges(mirrorGrid);
+	// apply changes from mirror grid to gameGrid
 	gameGrid = mirrorGrid;
-	mirrorGrid = tempGrid;
 }
 
 /* Exercise 6 */
 // setup control buttons 
-
 function setupControlButtons() {
     // button to start
     var startButton = document.getElementById("start");
