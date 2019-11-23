@@ -7,8 +7,6 @@ const gridHeight = 100;
 const gridScale = 5;
 // create the grid
 var gameGrid = createGrid(gridHeight, gridWidth);
-// create a mirror grid for game loop
-
 // create javascript canvas to draw game on
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
