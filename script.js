@@ -117,13 +117,16 @@ function countNeighbours( x, y )
 function mirrorEdges(mirrorArray)
 {
 	// mirror edges so organisms can wrap around the grid
-	for (let i = 1; i < gridHeight - 1; i++) {
-		//top and bottom
-		mirrorArray[i][0] = mirrorArray[i][gridHeight - 3];
-		mirrorArray[i][gridHeight - 2] = mirrorArray[i][1];
+	for (let i = 0; i < gridHeight; i++) {
 		//left and right
-		mirrorArray[0][i] = mirrorArray[gridHeight - 3][i];
-		mirrorArray[gridHeight - 2][i] = mirrorArray[1][i];
+		mirrorArray[i][0] = mirrorArray[i][gridWidth - 2];
+		mirrorArray[i][gridWidth - 1] = mirrorArray[i][1];
+	}
+	
+	for (let i = 0; i < gridWidth; i++) {
+		//top and bottom
+		mirrorArray[0][i] = mirrorArray[gridHeight - 2][i];
+		mirrorArray[gridHeight - 1][i] = mirrorArray[1][i];
 	}
 }
 
