@@ -191,6 +191,12 @@ function startButtonHandler(){
     }
 }
 
+function clearButtonHandler(){
+	clearGrid();
+	clearTimeout(timer);	
+}
+
+/* Exercise 5 */
 // Main function with game step logic
 function play() {
 	console.time("loop");
@@ -209,13 +215,8 @@ function play() {
 	}
 }
 
-function clearButtonHandler(){
-	clearGrid();
-	clearTimeout(timer);	
-}
 
-
-/* Exercise 5 */
+/* Exercise 7 */
 // add draw function and pause button
 function handleEvent(oEvent) {
     var canvas = document.getElementById("myCanvas");
