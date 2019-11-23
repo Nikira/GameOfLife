@@ -11,6 +11,8 @@ var gameGrid = createGrid(gridHeight, gridWidth);
 
 randomCells();
 
+// var testarray = [[0,1],[1,0],[1,1]];
+// console.log(testarray.join("\n"));
 
 /* ### Functions ### */
 
