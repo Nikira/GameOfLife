@@ -14,7 +14,6 @@ ctx.scale(gridScale, gridScale);
 ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
 var fps = 10;
 var timeout = 1000;
-var timer;
 var playing = false;
 // initialize control buttons
 setupControlButtons();
@@ -192,7 +191,6 @@ function setupControlButtons() {
 function randomButtonHandler(){
 	// call grid creation functions and game loop
 	randomCells();
-	drawGrid();
 }
 
 function fpsUpButtonHandler(){
@@ -231,7 +229,6 @@ function startButtonHandler(){
 
 function clearButtonHandler(){
 	clearGrid();
-	clearTimeout(timer);	
 }
 
 function oneUpdateButtonHandler()
@@ -254,7 +251,7 @@ function play() {
 	// measure time it takes for one game tick to complete
 	console.timeEnd("loop");
 	// restrict update rate to set frames per second
-	timer = setTimeout(function() {
+	setTimeout(function() {
 		requestAnimationFrame(play);
 	}, timeout / fps);
 }
@@ -275,6 +272,11 @@ function handleEvent(oEvent) {
 	console.log(`mouse click cellX: ${cellX} cellY: ${cellY} `);
 	if( cellX >= 0 && cellY >= 0 && cellX < gridWidth && cellY < gridHeight)
 	{
-		gameGrid[cellX][cellY] = 1;		
+		if(gameGrid[cellX][cellY] == 0){
+			gameGrid[cellX][cellY] = 1;		
+		}
+		else{
+			gameGrid[cellX][cellY] = 0;
+		}
 	}
 }
