@@ -58,7 +58,6 @@ function randomCells(){
 /* Exercise 3 */
 // draw the grid and its content on screen
 function drawGrid(){
-	// canvas.addEventListener("mousedown", getPosition, false);
 	for (let i = 0; i < gridHeight; i++){
 		for (let j = 0; j < gridWidth; j++){
 			// check cell value and draw on grid if it's a living cell

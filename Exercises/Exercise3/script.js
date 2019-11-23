@@ -7,12 +7,14 @@ const gridHeight = 100;
 const gridScale = 5;
 // create the grid
 var gameGrid = createGrid(gridHeight, gridWidth);
-// create a mirror grid for game loop
+// create javascript canvas to draw game on
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+ctx.scale(gridScale, gridScale);
+ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
 
 randomCells();
-
-// var testarray = [[0,1],[1,0],[1,1]];
-// console.log(testarray.join("\n"));
+drawGrid();
 
 /* ### Functions ### */
 
@@ -48,4 +50,18 @@ function randomCells(){
 		}
 	}
 	console.log(gameGrid.join('\n'));
+}
+
+/* Exercise 3 */
+// draw the grid and its content on screen
+function drawGrid(){
+	// canvas.addEventListener("mousedown", getPosition, false);
+	for (let i = 0; i < gridHeight; i++){
+		for (let j = 0; j < gridWidth; j++){
+			// check cell value and draw on grid if it's a living cell
+			if (gameGrid[i][j] === 1) {
+				ctx.fillRect(i, j, 1, 1);
+			}
+		}
+	}
 }
