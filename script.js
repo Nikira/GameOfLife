@@ -197,7 +197,7 @@ function play() {
 	updateGrid();
 	
 	// empty canvas before redraw
-	ctx.clearRect(0,0,gridHeight,gridWidth)
+	ctx.clearRect(0,0,gridHeight,gridWidth);
 	drawGrid();
 	// measure time it takes for one game tick to complete
 	console.timeEnd("loop");
