@@ -15,7 +15,8 @@ span {
 #clear,
 #random,
 #fps_up,
-#fps_down{
+#fps_down,
+#one_update{
     margin: 10px;
     font-family: "Arial Black", Gadget, sans-serif;
     font-size: 10px;

@@ -17,10 +17,10 @@ ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
 var fps = 10;
 var timeout = 1000;
 var timer;
+var playing = false;
 // initialize control buttons
 setupControlButtons();
-var playing = false;
-
+play();
 
 /* ### Functions ### */
 
@@ -139,14 +139,16 @@ function setupControlButtons() {
     randomButton.onclick = randomButtonHandler;
 	
 	// button to speed up time
-	var fpsUp = document.getElementById("fps_up");
-	fpsUp.onclick = fpsUpButtonHandler;
+	var fpsUpButton = document.getElementById("fps_up");
+	fpsUpButton.onclick = fpsUpButtonHandler;
 	
 	// button to slpw down time
-	var fpsDown = document.getElementById("fps_down");
-	fpsDown.onclick = fpsDownButtonHandler;
-	
+	var fpsDownButton = document.getElementById("fps_down");
+	fpsDownButton.onclick = fpsDownButtonHandler;
 
+	// button to call one step update
+	var oneUpdateButton = document.getElementById("one_update");
+	oneUpdateButton.onclick = oneUpdateButtonHandler;
 }
 
 function randomButtonHandler(){
@@ -182,12 +184,10 @@ function startButtonHandler(){
         console.log("Pause the game");
         playing = false;
         this.innerHTML = "Continue";
-        clearTimeout(timer);
     } else {
         console.log("Continue the game");
         playing = true;
         this.innerHTML = "Pause";
-        play();
     }
 }
 
@@ -196,11 +196,19 @@ function clearButtonHandler(){
 	clearTimeout(timer);	
 }
 
+function oneUpdateButtonHandler()
+{
+	updateGrid();
+}
+
 /* Exercise 5 */
 // Main function with game step logic
 function play() {
 	console.time("loop");
-	updateGrid();
+	if(playing)
+	{
+		updateGrid();
+	}
 	
 	// empty canvas before redraw
 	ctx.clearRect(0,0,gridHeight,gridWidth);
@@ -208,11 +216,9 @@ function play() {
 	// measure time it takes for one game tick to complete
 	console.timeEnd("loop");
 	// restrict update rate to set frames per second
-	if (playing){
-		timer = setTimeout(function() {
-			requestAnimationFrame(play);
-		}, timeout / fps);
-	}
+	timer = setTimeout(function() {
+		requestAnimationFrame(play);
+	}, timeout / fps);
 }
 
 
@@ -220,7 +226,7 @@ function play() {
 // add draw function and pause button
 function handleEvent(oEvent) {
     var canvas = document.getElementById("myCanvas");
-	console.log(`mouse click on canvas screenY: ${oEvent.clientX} screenY: ${oEvent.clientY} `);
+	console.log(`mouse click on canvas screenY: ${oEvent.screenX} screenY: ${oEvent.screenY} `);
 	var rect = canvas.getBoundingClientRect();
 	console.log(`mouse click on rect top: ${rect.top} left: ${rect.left} `);
 	let x = oEvent.clientX - rect.left;
